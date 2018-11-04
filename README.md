@@ -6,7 +6,6 @@ A Social media site has all of the features to show my knowdlge as a web develop
 
 ## Build status
 Building back end 
-[![Build Status](https://travis-ci.org/akashnimare/foco.svg?branch=master)](https://travis-ci.org/akashnimare/foco)
 
 ## Tech/framework used
 
