@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); 
+const jwt = require('jsonwebtoken')
+const keys = require('../../config/keys');
+
 
 
 
@@ -35,7 +38,7 @@ User.findOne({ email: req.body.email })
 
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {
-                if(err) throw err
+                if(err) throw err;
                 newUser.password = hash;
                 newUser.save()
                 .then(user => res.json(user))
@@ -63,7 +66,21 @@ User.findOne({email})
     // check password
 bcrypt.compare(password, user.password).then(isMatch => {
     if(isMatch){
-        res.json({ mes: 'Success'});
+// User matched
+
+// creates JWT payload
+const payload = {  id: user.id, name: user.name, avatar: user.avatar} 
+
+
+// sign token
+jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 },
+(err, token) => {
+    res.json({
+        success: true,
+        token: 'Bearer' + token
+    });
+}
+);
     } else{
         return res.status(400).json({ password: 'Password wrong dummy'})
     }
