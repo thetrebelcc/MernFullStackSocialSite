@@ -9,7 +9,9 @@ const passport = require('passport');
  
 
 // Loads user validator
-const validateRegisterInput = require ('../../validation/register')
+const validateRegisterInput = require ('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+
 
 
 
@@ -73,6 +75,16 @@ User.findOne({ email: req.body.email })
 
 
 router.post('/login', (req,res) => {
+
+    const { errors, isValid } = validateLoginInput(req.body);
+
+    // Check Validation 
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+
+
 const email = req.body.email;
 const password = req.body.password;
 
@@ -80,7 +92,8 @@ const password = req.body.password;
 User.findOne({email})
 .then(user => {
     if(!user){
-        return res.status(404).json({email:'User not found'})
+        errors.email = 'user not found';
+        return res.status(404).json(errors);
     }
 
     // check password
@@ -102,7 +115,9 @@ jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 },
 }
 );
     } else{
-        return res.status(400).json({ password: 'Password wrong dummy'})
+
+        errors.password = 'Wrong password'
+        return res.status(400).json(errors)
     }
 })
      
