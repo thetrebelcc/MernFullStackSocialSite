@@ -41,9 +41,32 @@ Profile.findOne({user: req.user.id})
 
 });
 
+// @route GET API/Profile/handle/:handle
+// @desc get profile by handle
+// @access public
 
-// @route GET API/Profile
-// @desc Test profile route
+router.get('/handle/:handle', (req,res) => {
+    const errors = {};
+Profile.findOne({handle: req.param.handle})
+    .populate('user', ['name','avatar'])
+    .then(profile => {
+        if(!profile) {
+            errors.noprofile = 'No profile for this user';
+            res.status(404).json(errors);
+        }
+
+        res.json(profile);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+
+
+
+
+
+// @route Post API/Profile
+// @desc Create or edit profile
 // @access private
 router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
 
