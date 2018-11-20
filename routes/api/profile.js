@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 
 // Load Validation
-// const validateProfileInput = require('../../validation/profile');
-// const validateExperienceInput = require('../../validation/experience');
+const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
 // const validateEducationInput = require('../../validation/education');
 
 // Load Profile Model
@@ -166,7 +166,7 @@ router.post(
     }
 );
 
-// @route   POST api/profile/experience
+// @route   POST api/profile/çience
 // @desc    Add experience to profile
 // @access  Private
 router.post(
