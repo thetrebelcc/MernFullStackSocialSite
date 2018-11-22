@@ -166,7 +166,7 @@ router.post(
     }
 );
 
-// @route   POST api/profile/çience
+// @route   POST api/profile/experience
 // @desc    Add experience to profile
 // @access  Private
 router.post(
