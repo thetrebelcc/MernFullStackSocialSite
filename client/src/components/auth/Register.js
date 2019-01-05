@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import classnames from 'classnames';
 
 
 
@@ -29,13 +31,20 @@ const newUser = {
     email: this.state.email,
     password: this.state.password,
     password2: this.state.password2,
-}
-    console.log(newUser);
+};
+
+axios
+    .post('/api/users/register', newUser)
+    .then(res => console.log(res.data))
+    .catch(err => this.setState({errors: err.response.data}));
 }
 
 
 
     render() {
+
+            const { errors } = this.state;
+
         return (
             <div className="register">
                 <div className="container">
